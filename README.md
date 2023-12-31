@@ -148,6 +148,18 @@ To run the service locally on your machine, run the following command inside of 
 npm start
 ```
 
+To run the service in Docker containers the following command from the base directory:
+
+```bash
+docker compose up --build --force-recreate
+```
+
+To remove all containers afterwards, run:
+
+```bash
+docker compose down
+```
+
 To spin up the microservice in a local docker container, follow these steps:
 
 1. Run this command in the server directory

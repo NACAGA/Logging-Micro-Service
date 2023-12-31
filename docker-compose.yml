@@ -1,0 +1,44 @@
+version: '2'
+
+services:
+  database:
+    env_file:
+      - .env
+    build:
+      context: database
+      args:
+        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_USER=${MYSQL_USER}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      dockerfile: Dockerfile
+    container_name: log-database
+    ports:
+      - ${LOCAL_DB_PORT}:${DB_PORT}
+    restart: always
+    networks:
+      obscenity:
+        ipv4_address: 172.21.0.2
+  server:
+    depends_on:
+      - database
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: log-server
+    env_file:
+      - .env
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/workspace
+    networks:
+      obscenity:
+        ipv4_address: 172.21.0.3
+networks:
+  obscenity:
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16

@@ -15,4 +15,4 @@ class Success {
     }
 }
 
-export default { Success };
+module.exports = Success;
