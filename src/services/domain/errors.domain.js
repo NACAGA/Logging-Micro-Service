@@ -32,4 +32,12 @@ class AddLogError extends BusinessError {
     }
 }
 
-module.exports = { BusinessError, DatabaseError, AddLogError };
+class CreateServiceError extends BusinessError {
+    constructor() {
+        super();
+        this.message = 'Error creating service';
+        this.code = 500;
+    }
+}
+
+module.exports = { BusinessError, DatabaseError, AddLogError, CreateServiceError };

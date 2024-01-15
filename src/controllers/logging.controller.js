@@ -1,5 +1,6 @@
 const addLogService = require('../services/addLog.service');
 const getLogsService = require('../services/getLogs.service');
+const createServiceService = require('../services/createService.service');
 
 async function addLog(req, res, next) {
     try {
@@ -23,4 +24,15 @@ async function getLogs(req, res, next) {
     }
 }
 
-module.exports = { addLog, getLogs };
+async function createService(req, res, next) {
+    try {
+        let response = await createServiceService.createService(req.body);
+        response = response.getResponse();
+        res.status(response.status).json(response.body);
+    } catch (err) {
+        console.error('Error while creating service:', err);
+        next(err);
+    }
+}
+
+module.exports = { addLog, getLogs, createService };

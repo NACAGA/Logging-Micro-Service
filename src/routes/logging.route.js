@@ -33,9 +33,12 @@ validateRequestHeaders = (expectedFields) => {
 };
 
 /* POST add log */
-router.post('/add', [validateRequestBody(['service_id', 'username', 'event', 'timestamp', 'message', 'level'])], loggingController.addLog);
+router.post('/add', [validateRequestBody(['service_id', 'userid', 'event', 'message', 'level'])], loggingController.addLog);
 
 /* GET get logs */
 router.get('/get', loggingController.getLogs);
+
+/* POST create service */
+router.post('/create', [validateRequestBody(['name', 'description'])], loggingController.createService);
 
 module.exports = router;

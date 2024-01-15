@@ -3,11 +3,10 @@ function createLogQueryBuilder(parameters, tableColumns) {
     let values = [];
     let queryValues = '(';
     for (const parameter in parameters) {
-        if (!tableColumn) query += `${parameter}, `;
-        if (!tableColumns.includes(field)) continue;
-        query += `${field}, `;
+        if (!tableColumns.includes(parameter)) continue;
+        query += `${parameter}, `;
         queryValues += '?, ';
-        values.push(fields[field]);
+        values.push(parameters[parameter]);
     }
     query = query.slice(0, -2);
     queryValues = queryValues.slice(0, -2) + ')';

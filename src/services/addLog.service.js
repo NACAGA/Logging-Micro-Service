@@ -4,15 +4,14 @@ const Error = require('./domain/errors.domain');
 const utils = require('../utils/logging.util');
 
 class AddLogSuccess extends Success {
-    constructor(query) {
+    constructor() {
         super();
-        this.query = query;
+        this.message = 'Log added successfully';
+        this.code = 200;
     }
 }
 
 async function addLog(log) {
-    const addLogResult = await db.query('INSERT INTO ServiceEvents (?, ?, ?, ?, ?, ?)', log);
-    if (addLogResult instanceof Error.BusinessError) return addLogResult;
     const serviceEventsTableFieldsResult = await db.query(
         `SELECT COLUMN_NAME FROM information_schema.columns WHERE TABLE_NAME = 'ServiceEvents' AND COLUMN_NAME NOT IN ('id', 'timestamp')`
     );
@@ -23,7 +22,7 @@ async function addLog(log) {
     const addLogQueryResult = await db.query(query, values);
     if (addLogQueryResult instanceof Error.BusinessError) return addLogQueryResult;
 
-    if (addLogQueryResult.result.affectedRows > 0) return new AddLogSuccess(addLogQueryResult.result);
+    if (addLogQueryResult.result.affectedRows > 0) return new AddLogSuccess();
 
     return new Error.AddLogError();
 }
